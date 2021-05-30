@@ -1,10 +1,11 @@
 package Service;
 
-import entity.Contato;
-
 public interface ContatoService {
 
     void salvarContato();
 
+    void buscarContato();
+
+    void deletarContato();
 
 }
