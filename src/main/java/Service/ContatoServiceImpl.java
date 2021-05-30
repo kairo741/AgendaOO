@@ -16,7 +16,7 @@ public class ContatoServiceImpl implements ContatoService {
 
 
     @Override
-    public void salvarContato(){
+    public void salvarContato() {
         Contato contato = preencherContato();
 
         validateContato(contato);
@@ -37,19 +37,19 @@ public class ContatoServiceImpl implements ContatoService {
 
     private void validateContato(Contato contato) {
 
-        if(contato.getEmail() == null || contato.getEmail().isEmpty()){
+        if (contato.getEmail() == null || contato.getEmail().isEmpty()) {
             throw new RuntimeException("E-mail não pode ser nulo!");
         }
-        if(contato.getNome() == null || contato.getNome().isEmpty()){
+        if (contato.getNome() == null || contato.getNome().isEmpty()) {
             throw new RuntimeException("Nome não pode ser nulo!");
         }
-        if(contato.getNumTelefone() == null || contato.getNumTelefone().isEmpty()){
+        if (contato.getNumTelefone() == null || contato.getNumTelefone().isEmpty()) {
             throw new RuntimeException("Número de telefone não pode ser nulo!");
         }
     }
 
     @Override
-    public void buscarContato(){
+    public void buscarContato() {
         String opcao = input.get("--MENU DE BUSCA--\n" +
                 "1 - Busca por nome\n" +
                 "2 - Busca por telefone\n" +
@@ -58,9 +58,9 @@ public class ContatoServiceImpl implements ContatoService {
                 "Op: ");
         if (opcao.equals("1")) {
             exibirBusca(input.get("Nome do contato que deseja buscar: "), "nome");
-        }else if(opcao.equals("2")){
+        } else if (opcao.equals("2")) {
             exibirBusca(input.get("Telefone do contato que deseja buscar: "), "numTelefone");
-        }else if(opcao.equals("3")){
+        } else if (opcao.equals("3")) {
             exibirBusca(input.get("E-mail do contato que deseja buscar: "), "email");
         } else {
             System.out.println("Opção inválida!");
@@ -68,26 +68,31 @@ public class ContatoServiceImpl implements ContatoService {
     }
 
     //Tipo: 1 - Nome | 2 - Telefone | 3 - Email
-    private void exibirBusca(String argumento, String tipo){
+    private void exibirBusca(String argumento, String tipo) {
         List<Contato> list = daoContato.getContato(argumento, tipo);
         System.out.println("Os contatos encontrados foram: ");
-        list.forEach(contato -> {
-            System.out.println("_______________________________________________________");
-            System.out.println("Id do contato: "+ contato.getId());
-            System.out.println("Nome: "+ contato.getNome());
-            System.out.println("E-mail: "+ contato.getEmail());
-            System.out.println("Numero de Telefone: "+ contato.getNumTelefone());
-            System.out.println("_______________________________________________________");
-        });
+        if (list.isEmpty()) {
+            System.out.println("Nenhum contato encontrado!");
+        } else {
+            list.forEach(contato -> {
+                System.out.println("_______________________________________________________");
+                System.out.println("Id do contato: " + contato.getId());
+                System.out.println("Nome: " + contato.getNome());
+                System.out.println("E-mail: " + contato.getEmail());
+                System.out.println("Numero de Telefone: " + contato.getNumTelefone());
+                System.out.println("_______________________________________________________");
+            });
+        }
+
 
     }
 
     @Override
-    public void deletarContato(){
+    public void deletarContato() {
         processardelete(Long.parseLong(input.get("Id do contato que deseja deletar: ")));
     }
 
-    private void processardelete(Long id){
+    private void processardelete(Long id) {
         daoContato.deletarContato(id);
     }
 

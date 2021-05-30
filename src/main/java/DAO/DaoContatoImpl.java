@@ -47,13 +47,24 @@ public class DaoContatoImpl implements DaoContato {
     public void deletarContato(Long id){
         EntityManager em = getEntityManager();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        Contato contato = objectMapper.convertValue(
-                em.createQuery("SELECT x FROM Contato x WHERE x.id = :id ")
-                .setParameter("id", id)
-                .getSingleResult(), Contato.class);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        Contato contato = objectMapper.convertValue(
+//                em.createQuery("SELECT x FROM Contato x WHERE x.id = :id ")
+//                .setParameter("id", id)
+//                .getSingleResult(), Contato.class);
+        Contato contato = em.find(Contato.class, id);
 
-        em.remove(contato);
+        if(contato != null){
+//            em.joinTransaction();
+//            em.createQuery("DELETE FROM Contato x WHERE x.id = :id_contato")
+//                    .setParameter("id_contato", id)
+//                    .executeUpdate();
+
+        em.remove(em.contains(contato) ? contato : em.merge(contato));
+        }else{
+            throw new RuntimeException("Contato não existe!");
+        }
+
 
         closeEntityManager(em);
     }
