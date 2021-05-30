@@ -16,10 +16,8 @@ public class SistemaServiceImpl implements SistemaService {
         while (true) {
             String opcao = input.get("--MENU PRINCIPAL--\n" +
                     "1 - Menu contato\n" +
-                    "2 - Buscar\n" +
-                    "3 - Excluir\n" +
                     "0 - Voltar\n" +
-                    "Op:");
+                    "Op: ");
             if (opcao.equals("0")) {
                 break;
             } else if (opcao.equals("1")) {
@@ -44,6 +42,8 @@ public class SistemaServiceImpl implements SistemaService {
             contatoService.buscarContato();
         }else if(opcao.equals("3")){
             contatoService.deletarContato();
+        } else {
+            System.out.println("Opção inválida!");
         }
 
     }

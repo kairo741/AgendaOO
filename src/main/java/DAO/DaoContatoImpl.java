@@ -30,11 +30,13 @@ public class DaoContatoImpl implements DaoContato {
     }
 
     @Override
-    public List<Contato> getContato(String nome){
+    public List<Contato> getContato(String argumento, String tipo){
         EntityManager em = getEntityManager();
+        String sql = "SELECT x FROM Contato x WHERE x."+tipo+" = :nome_contato ";
 
-        List<Contato> resultado = em.createQuery("SELECT x FROM Contato x WHERE x.nome = :nome_contato ")
-                .setParameter("nome_contato", nome)
+
+        List<Contato> resultado = em.createQuery(sql)
+                .setParameter("nome_contato", argumento)
                 .getResultList();
 
         closeEntityManager(em);

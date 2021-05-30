@@ -22,7 +22,6 @@ public class ContatoServiceImpl implements ContatoService {
         validateContato(contato);
 
         daoContato.salvarOuAtualizar(contato);
-        exibirBusca("kairo");
     }
 
 
@@ -51,12 +50,26 @@ public class ContatoServiceImpl implements ContatoService {
 
     @Override
     public void buscarContato(){
-        exibirBusca(input.get("Nome do contato que deseja buscar: "));
+        String opcao = input.get("--MENU DE BUSCA--\n" +
+                "1 - Busca por nome\n" +
+                "2 - Busca por telefone\n" +
+                "3 - Busca por e-mail\n" +
+                "0 - Voltar\n" +
+                "Op: ");
+        if (opcao.equals("1")) {
+            exibirBusca(input.get("Nome do contato que deseja buscar: "), "nome");
+        }else if(opcao.equals("2")){
+            exibirBusca(input.get("Telefone do contato que deseja buscar: "), "numTelefone");
+        }else if(opcao.equals("3")){
+            exibirBusca(input.get("E-mail do contato que deseja buscar: "), "email");
+        } else {
+            System.out.println("Opção inválida!");
+        }
     }
 
-
-    private void exibirBusca(String nome){
-        List<Contato> list = daoContato.getContato(nome);
+    //Tipo: 1 - Nome | 2 - Telefone | 3 - Email
+    private void exibirBusca(String argumento, String tipo){
+        List<Contato> list = daoContato.getContato(argumento, tipo);
         System.out.println("Os contatos encontrados foram: ");
         list.forEach(contato -> {
             System.out.println("_______________________________________________________");
